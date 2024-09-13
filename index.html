@@ -4,86 +4,177 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAT Token Box Setup Guide</title>
+    
+    <!-- General meta tags -->
+    <meta name="description" content="This guide will help you set up the CAT Token Box project from scratch on a clean Linux installation.">
+    
+    <!-- Open Graph / Facebook meta tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ordinalos.github.io/cat-token-box-install/">
+    <meta property="og:title" content="CAT Token Box Setup Guide">
+    <meta property="og:description" content="This guide will help you set up the CAT Token Box project from scratch on a clean Linux installation.">
+    <meta property="og:image" content="https://ordinalos.github.io/cat-token-box-install/banner.jpeg">
+    
+    <!-- Twitter meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ordinalos.github.io/cat-token-box-install/">
+    <meta name="twitter:title" content="CAT Token Box Setup Guide">
+    <meta name="twitter:description" content="This guide will help you set up the CAT Token Box project from scratch on a clean Linux installation.">
+    <meta name="twitter:image" content="https://ordinalos.github.io/cat-token-box-install/banner.jpeg">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-json.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #ffffff;
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --matrix-color: rgba(0, 100, 255, 0.1);
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-size: 14px;
             line-height: 1.6;
-            color: #333;
-            background-color: #f4f4f4;
-            max-width: 800px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        .container {
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
         }
-        h1, h2, h3 {
-            color: #2c3e50;
+        .banner-container {
+            position: relative;
+            margin-bottom: 20px;
         }
+        .banner {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .title-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        h1, h2, h3 {
+            font-family: 'Roboto Mono', monospace;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        h1 { font-size: 1.4em; margin: 0; }
+        h2 { font-size: 1.2em; }
+        h3 { font-size: 1em; }
         a {
-            color: #3498db;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        a:hover {
+            opacity: 0.8;
         }
         pre[class*="language-"] {
-            background: #1e1e1e;
-            border-radius: 4px;
+            background: #111;
+            border-radius: 8px;
             padding: 1em;
-            margin: .5em 0;
+            margin: 0.5em 0;
             overflow: auto;
         }
         code[class*="language-"] {
-            color: #d4d4d4;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--text-color);
             text-shadow: none;
+            font-size: 0.9em;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .note, .warning, .troubleshooting {
-            border-radius: 4px;
+            border-radius: 8px;
             margin-bottom: 15px;
-            padding: 4px 12px;
+            padding: 15px;
+            font-size: 0.9em;
         }
         .note {
-            background-color: #e7f3fe;
-            border-left: 6px solid #2196F3;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #ffffff;
         }
         .warning {
-            background-color: #ffffcc;
-            border-left: 6px solid #ffeb3b;
+            background-color: rgba(255, 255, 0, 0.1);
+            border-left: 4px solid #ffff00;
         }
         .troubleshooting {
-            background-color: #ffebee;
-            border-left: 6px solid #f44336;
+            background-color: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #ff0000;
         }
     </style>
 </head>
 <body>
-    <h1>CAT Token Box Setup Guide</h1>
-    
-    <div class="warning">
-        <p><strong>HIGHLY RECOMMENDED:</strong> To use the official documentation <a href="https://github.com/CATProtocol/cat-token-box" target="_blank">https://github.com/CATProtocol/cat-token-box</a></p>
-        <p><strong>NOTE:</strong> I will be updating this guide. Follow me at <a href="https://x.com/ordinalos" target="_blank">@ordinalos</a> for updates.</p>
-    </div>
+    <div class="matrix-bg"></div>
+    <div class="container">
+        <div class="glass-panel">
+            <div class="banner-container">
+                <img src="banner.jpeg" alt="CAT Token Box Banner" class="banner">
+                <div class="title-overlay">
+                    <h1>CAT Token Box Setup Guide</h1>
+                </div>
+            </div>
+            
+            <div class="warning">
+                <p><strong>HIGHLY RECOMMENDED:</strong> To use the official documentation <a href="https://github.com/CATProtocol/cat-token-box" target="_blank">https://github.com/CATProtocol/cat-token-box</a></p>
+                <p><strong>NOTE:</strong> I will be updating this guide. Follow me at <a href="https://x.com/ordinalos" target="_blank">@ordinalos</a> for updates.</p>
+            </div>
+        </div>
 
-    <h2>1. System Requirements and Prerequisites</h2>
-    <h3>1.1 Operating System</h3>
-    <p>This guide primarily focuses on a fresh Ubuntu installation. We recommend using the latest LTS version of Ubuntu, which you can download from the <a href="https://ubuntu.com/download/desktop" target="_blank">official Ubuntu website</a>.</p>
+        <div class="glass-panel">
+            <h2>1. System Requirements and Prerequisites</h2>
+            <h3>1.1 Operating System</h3>
+            <p>This guide primarily focuses on a fresh Ubuntu installation. We recommend using the latest LTS version of Ubuntu, which you can download from the <a href="https://ubuntu.com/download/desktop" target="_blank">official Ubuntu website</a>.</p>
 
-    <h3>1.2 VPS Option</h3>
-    <p>If you prefer using a VPS, here are three recommended providers that offer easy Ubuntu setup:</p>
-    <ul>
-        <li><a href="https://www.digitalocean.com/" target="_blank">DigitalOcean</a></li>
-        <li><a href="https://www.linode.com/" target="_blank">Linode</a></li>
-        <li><a href="https://www.vultr.com/" target="_blank">Vultr</a></li>
-    </ul>
+            <h3>1.2 VPS Option</h3>
+            <p>If you prefer using a VPS, here are three recommended providers that offer easy Ubuntu setup:</p>
+            <ul>
+                <li><a href="https://www.digitalocean.com/" target="_blank">DigitalOcean</a></li>
+                <li><a href="https://www.linode.com/" target="_blank">Linode</a></li>
+                <li><a href="https://www.vultr.com/" target="_blank">Vultr</a></li>
+            </ul>
 
-    <h3>1.3 Basic System Setup</h3>
-    <p>Update your system and install basic packages:</p>
-    <pre><code class="language-bash">
+            <h3>1.3 Basic System Setup</h3>
+            <p>Update your system and install basic packages:</p>
+            <pre><code class="language-bash">
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y build-essential git curl
-    </code></pre>
+            </code></pre>
 
-    <h3>1.4 Install Node.js and Yarn</h3>
-    <pre><code class="language-bash">
+            <h3>1.4 Install Node.js and Yarn</h3>
+            <pre><code class="language-bash">
 # Install nvm (Node Version Manager)
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
 
@@ -98,67 +189,71 @@ npm -v # should print `10.8.2`
 
 # Install Yarn
 npm install -g yarn
-    </code></pre>
+            </code></pre>
 
-    <h3>1.5 Install and Setup PostgreSQL</h3>
-    <pre><code class="language-bash">
+            <h3>1.5 Install and Setup PostgreSQL</h3>
+            <pre><code class="language-bash">
 sudo apt install -y postgresql postgresql-contrib
 sudo systemctl start postgresql
 sudo systemctl enable postgresql
 sudo -u postgres psql -c "CREATE DATABASE cat;"
 sudo -u postgres psql -c "CREATE USER cat_user WITH PASSWORD 'your_password';"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE cat TO cat_user;"
-    </code></pre>
+            </code></pre>
 
-    <div class="note">
-        <p><strong>NOTE:</strong> Replace 'your_password' with a strong, unique password.</p>
-    </div>
+            <div class="note">
+                <p><strong>NOTE:</strong> Replace 'your_password' with a strong, unique password.</p>
+            </div>
 
-    <div class="troubleshooting">
-        <h4>Troubleshooting Section 1:</h4>
-        <ul>
-            <li>To check if PostgreSQL is running: <code>sudo systemctl status postgresql</code></li>
-            <li>To test PostgreSQL connection: <code>psql -h localhost -U cat_user -d cat</code></li>
-        </ul>
-    </div>
+            <div class="troubleshooting">
+                <h4>Troubleshooting Section 1:</h4>
+                <ul>
+                    <li>To check if PostgreSQL is running: <code>sudo systemctl status postgresql</code></li>
+                    <li>To test PostgreSQL connection: <code>psql -h localhost -U cat_user -d cat</code></li>
+                </ul>
+            </div>
+        </div>
 
-    <h2>2. CAT Token Box Setup</h2>
-    <h3>2.1 Clone the Repository</h3>
-    <pre><code class="language-bash">
+        <div class="glass-panel">
+            <h2>2. CAT Token Box Setup</h2>
+            <h3>2.1 Clone the Repository</h3>
+            <pre><code class="language-bash">
 git clone https://github.com/CATProtocol/cat-token-box.git
 cd cat-token-box
-    </code></pre>
+            </code></pre>
 
-    <h3>2.2 Install Dependencies and Build</h3>
-    <pre><code class="language-bash">
+            <h3>2.2 Install Dependencies and Build</h3>
+            <pre><code class="language-bash">
 yarn install && yarn build
-    </code></pre>
+            </code></pre>
 
-    <div class="troubleshooting">
-        <h4>Troubleshooting Section 2:</h4>
-        <ul>
-            <li>If build fails, ensure all prerequisites are installed: <code>node -v && yarn -v</code></li>
-            <li>Check for any error messages in the build output and address them accordingly.</li>
-        </ul>
-    </div>
+            <div class="troubleshooting">
+                <h4>Troubleshooting Section 2:</h4>
+                <ul>
+                    <li>If build fails, ensure all prerequisites are installed: <code>node -v && yarn -v</code></li>
+                    <li>Check for any error messages in the build output and address them accordingly.</li>
+                </ul>
+            </div>
+        </div>
 
-    <h2>3. Tracker Setup</h2>
-    <p>For detailed instructions, refer to the <a href="https://github.com/CATProtocol/cat-token-box/blob/main/packages/tracker" target="_blank">official tracker documentation</a>.</p>
+        <div class="glass-panel">
+            <h2>3. Tracker Setup</h2>
+            <p>For detailed instructions, refer to the <a href="https://github.com/CATProtocol/cat-token-box/blob/main/packages/tracker" target="_blank">official tracker documentation</a>.</p>
 
-    <h3>3.1 Installation and Build</h3>
-    <pre><code class="language-bash">
+            <h3>3.1 Installation and Build</h3>
+            <pre><code class="language-bash">
 cd packages/tracker
 yarn install
 yarn build
-    </code></pre>
+            </code></pre>
 
-    <h3>3.2 Configure Environment</h3>
-    <pre><code class="language-bash">
+            <h3>3.2 Configure Environment</h3>
+            <pre><code class="language-bash">
 cp .env.example .env
 nano .env
-    </code></pre>
-    <p>Update the .env file with your configuration. Here's an example of what your .env file might look like:</p>
-    <pre><code class="language-bash">
+            </code></pre>
+            <p>Update the .env file with your configuration. Here's an example of what your .env file might look like:</p>
+            <pre><code class="language-bash">
 DATABASE_TYPE=postgres
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
@@ -174,19 +269,19 @@ RPC_PASSWORD=your_rpc_password
 NETWORK=mainnet
 API_PORT=3000
 GENESIS_BLOCK_HEIGHT=0
-    </code></pre>
-    <p>Make sure to replace <code>your_password</code> and <code>your_rpc_password</code> with your actual PostgreSQL and RPC passwords.</p>
+            </code></pre>
+            <p>Make sure to replace <code>your_password</code> and <code>your_rpc_password</code> with your actual PostgreSQL and RPC passwords.</p>
 
-    <h3>3.3 Set Up Docker</h3>
-    <pre><code class="language-bash">
+            <h3>3.3 Set Up Docker</h3>
+            <pre><code class="language-bash">
 sudo chmod 777 docker/data
 sudo chmod 777 docker/pgdata
 docker compose up -d
-    </code></pre>
+            </code></pre>
 
-    <h3>3.4 Run the Tracker Service</h3>
-    <p>Option 1: Using Docker (Recommended)</p>
-    <pre><code class="language-bash">
+            <h3>3.4 Run the Tracker Service</h3>
+            <p>Option 1: Using Docker (Recommended)</p>
+            <pre><code class="language-bash">
 cd ../../
 docker build -t tracker:latest .
 docker run -d \
@@ -197,58 +292,60 @@ docker run -d \
     -p 3000:3000 \
     tracker:latest
 docker logs -f tracker
-    </code></pre>
+            </code></pre>
 
-    <p>Option 2: Using Yarn</p>
-    <pre><code class="language-bash">
+            <p>Option 2: Using Yarn</p>
+            <pre><code class="language-bash">
 # Development mode
 yarn run start
 
 # Production mode
 yarn run start:prod
-    </code></pre>
+            </code></pre>
 
-    <div class="note">
-        <p><strong>NOTE:</strong> Ensure the tracker syncs to the latest block before running CLI commands. Check the sync progress at http://127.0.0.1:3000/api</p>
-    </div>
+            <div class="note">
+                <p><strong>NOTE:</strong> Ensure the tracker syncs to the latest block before running CLI commands. Check the sync progress at http://127.0.0.1:3000/api</p>
+            </div>
 
-    <div class="troubleshooting">
-        <h4>Troubleshooting Section 3:</h4>
-        <ul>
-            <li>To check if the tracker is running: <code>docker ps | grep tracker</code></li>
-            <li>To check tracker logs: <code>docker logs tracker</code></li>
-            <li>To check the API endpoint: <code>curl http://localhost:3000/api</code></li>
-            <li>To check sync progress, use the CLI to check wallet balance (see CLI commands below)</li>
-        </ul>
-    </div>
+            <div class="troubleshooting">
+                <h4>Troubleshooting Section 3:</h4>
+                <ul>
+                    <li>To check if the tracker is running: <code>docker ps | grep tracker</code></li>
+                    <li>To check tracker logs: <code>docker logs tracker</code></li>
+                    <li>To check the API endpoint: <code>curl http://localhost:3000/api</code></li>
+                    <li>To check sync progress, use the CLI to check wallet balance (see CLI commands below)</li>
+                </ul>
+            </div>
+        </div>
 
-    <h2>4. CLI Setup and Usage</h2>
-    <p>For detailed instructions, refer to the <a href="https://github.com/CATProtocol/cat-token-box/tree/main/packages/cli" target="_blank">official CLI documentation</a>.</p>
+        <div class="glass-panel">
+            <h2>4. CLI Setup and Usage</h2>
+            <p>For detailed instructions, refer to the <a href="https://github.com/CATProtocol/cat-token-box/tree/main/packages/cli" target="_blank">official CLI documentation</a>.</p>
 
-    <h3>4.1 Installation and Build</h3>
-    <pre><code class="language-bash">
+            <h3>4.1 Installation and Build</h3>
+            <pre><code class="language-bash">
 cd packages/cli
 yarn install
 yarn build
-    </code></pre>
+            </code></pre>
 
-    <h3>4.2 Configuration</h3>
-    <pre><code class="language-bash">
+            <h3>4.2 Configuration</h3>
+            <pre><code class="language-bash">
 cp config.example.json config.json
 nano config.json
-    </code></pre>
-    <p>Update config.json with your own configuration. Here's an example of what your config.json might look like:</p>
-    <pre><code class="language-json">
+            </code></pre>
+            <p>Update config.json with your own configuration. Here's an example of what your config.json might look like:</p>
+            <pre><code class="language-json">
 {
   "network": "testnet",
   "mnemonic": "your twelve word mnemonic phrase goes here",
   "trackerUrl": "http://localhost:3000"
 }
-    </code></pre>
-    <p>Replace "your twelve word mnemonic phrase goes here" with your actual mnemonic phrase.</p>
+            </code></pre>
+            <p>Replace "your twelve word mnemonic phrase goes here" with your actual mnemonic phrase.</p>
 
-    <h3>4.3 CLI Commands</h3>
-    <pre><code class="language-bash">
+            <h3>4.3 CLI Commands</h3>
+            <pre><code class="language-bash">
 # Create a wallet
 yarn cli wallet create
 
@@ -268,14 +365,14 @@ yarn cli mint -i [tokenId] [amount?]
 
 # Send token
 yarn cli send -i [tokenId] [receiver] [amount]
-    </code></pre>
+            </code></pre>
 
-    <div class="note">
-        <p><strong>NOTE:</strong> Replace [tokenId], [receiver], and [amount] with actual values when using these commands.</p>
-    </div>
+            <div class="note">
+                <p><strong>NOTE:</strong> Replace [tokenId], [receiver], and [amount] with actual values when using these commands.</p>
+            </div>
 
-    <p>When deploying a token with a metadata file, here's an example of what your <code>example.json</code> might look like:</p>
-    <pre><code class="language-json">
+            <p>When deploying a token with a metadata file, here's an example of what your <code>example.json</code> might look like:</p>
+            <pre><code class="language-json">
 {
     "name": "cat",
     "symbol": "CAT",
@@ -284,29 +381,76 @@ yarn cli send -i [tokenId] [receiver] [amount]
     "limit": "5",
     "premine": "0"
 }
-    </code></pre>
+            </code></pre>
 
-    <div class="troubleshooting">
-        <h4>Troubleshooting Section 4:</h4>
-        <ul>
-            <li>If CLI commands fail, ensure the tracker is fully synced by checking the wallet balance.</li>
-            <li>To check tracker sync progress: <code>yarn cli wallet balance</code></li>
-            <li>If commands still fail, check tracker logs for any error messages: <code>docker logs tracker</code></li>
-        </ul>
+            <div class="troubleshooting">
+                <h4>Troubleshooting Section 4:</h4>
+                <ul>
+                    <li>If CLI commands fail, ensure the tracker is fully synced by checking the wallet balance.</li>
+                    <li>To check tracker sync progress: <code>yarn cli wallet balance</code></li>
+                    <li>If commands still fail, check tracker logs for any error messages: <code>docker logs tracker</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="glass-panel">
+            <h2>5. Final Notes</h2>
+            <ul>
+                <li>Always keep your system and packages up to date.</li>
+                <li>Regularly backup your database and wallet.</li>
+                <li>Monitor your system resources, especially when running a full node.</li>
+                <li>For advanced configurations or issues, refer to the official documentation or seek community support.</li>
+            </ul>
+
+            <div class="warning">
+                <p><strong>REMINDER:</strong> Always refer to the official documentation and README files in each package for the most up-to-date information and troubleshooting tips.</p>
+            </div>
+        </div>
+
+        <div class="glass-panel">
+            <p>I will be updating this guide. Follow me at <a href="https://x.com/ordinalos" target="_blank">@ordinalos</a> for updates.</p>
+        </div>
     </div>
+    <script>
+        function createMatrixBackground() {
+            const canvas = document.createElement('canvas');
+            canvas.classList.add('matrix-bg');
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
 
-    <h2>5. Final Notes</h2>
-    <ul>
-        <li>Always keep your system and packages up to date.</li>
-        <li>Regularly backup your database and wallet.</li>
-        <li>Monitor your system resources, especially when running a full node.</li>
-        <li>For advanced configurations or issues, refer to the official documentation or seek community support.</li>
-    </ul>
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 
-    <div class="warning">
-        <p><strong>REMINDER:</strong> Always refer to the official documentation and README files in each package for the most up-to-date information and troubleshooting tips.</p>
-    </div>
+            const columns = canvas.width / 20;
+            const drops = [];
 
-    <p>I will be updating this guide. Follow me at <a href="https://x.com/ordinalos" target="_blank">@ordinalos</a> for updates.</p>
+            for (let i = 0; i < columns; i++) {
+                drops[i] = 1;
+            }
+
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = 'var(--matrix-color)';
+                ctx.font = '15px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = String.fromCharCode(Math.random() * 128);
+                    ctx.fillText(text, i * 20, drops[i] * 20);
+
+                    if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            setInterval(draw, 35);
+        }
+
+        createMatrixBackground();
+        window.addEventListener('resize', createMatrixBackground);
+    </script>
 </body>
 </html>
