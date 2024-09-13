@@ -2,7 +2,7 @@
 
 ![CAT Token Box Banner](banner.jpeg)
 
-VIEW UP TO DATE GUIDE HERE: [CAT TOKEN INSTALLATION GUIDE]([https://ubuntu.com/download/desktop](https://ordinalos.github.io/cat-token-box-install/))
+VIEW UP TO DATE GUIDE HERE: [CAT TOKEN INSTALLATION GUIDE]([https://ubuntu.com/download/desktop](https://ordinalos.github.io/cat-token-box-install)
 
 > **HIGHLY RECOMMENDED:** To use the official documentation https://github.com/CATProtocol/cat-token-box
 
