@@ -104,7 +104,27 @@ cp .env.example .env
 nano .env
 ```
 
-Update the .env file with your configuration.
+Update the .env file with your configuration. Here's an example of what your .env file might look like:
+
+```
+DATABASE_TYPE=postgres
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_DB=cat
+DATABASE_USERNAME=cat_user
+DATABASE_PASSWORD=your_password
+
+RPC_HOST=127.0.0.1
+RPC_PORT=8332
+RPC_USER=bitcoin
+RPC_PASSWORD=your_rpc_password
+
+NETWORK=mainnet
+API_PORT=3000
+GENESIS_BLOCK_HEIGHT=0
+```
+
+Make sure to replace `your_password` and `your_rpc_password` with your actual PostgreSQL and RPC passwords.
 
 ### 3.3 Set Up Docker
 
@@ -169,7 +189,17 @@ cp config.example.json config.json
 nano config.json
 ```
 
-Update config.json with your own configuration.
+Update config.json with your own configuration. Here's an example of what your config.json might look like:
+
+```json
+{
+  "network": "testnet",
+  "mnemonic": "your twelve word mnemonic phrase goes here",
+  "trackerUrl": "http://localhost:3000"
+}
+```
+
+Replace "your twelve word mnemonic phrase goes here" with your actual mnemonic phrase.
 
 ### 4.3 CLI Commands
 
@@ -196,6 +226,19 @@ yarn cli send -i [tokenId] [receiver] [amount]
 ```
 
 > **NOTE:** Replace [tokenId], [receiver], and [amount] with actual values when using these commands.
+
+When deploying a token with a metadata file, here's an example of what your `example.json` might look like:
+
+```json
+{
+    "name": "cat",
+    "symbol": "CAT",
+    "decimals": 2,
+    "max": "21000000",
+    "limit": "5",
+    "premine": "0"
+}
+```
 
 #### Troubleshooting Section 4:
 
