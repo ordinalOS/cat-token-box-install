@@ -341,18 +341,7 @@ yarn install
 yarn build
             </code></pre>
 
-            <h3>4.2 Configuration</h3>
-            <p>The CLI uses a configuration file by default. You can create one based on the example:</p>
-            <pre><code class="language-bash">
-cp config.example.json config.json
-</code></pre>
-            <p>The default configuration should work for most users. If you need to customize it, you can edit the config.json file.</p>
-
-            <div class="note">
-                <p><strong>NOTE:</strong> The default network is "mainnet". Only change this if you're specifically testing on a different network.</p>
-            </div>
-
-            <h3>4.3 Create a Wallet</h3>
+            <h3>4.2 Create a Wallet</h3>
             <pre><code class="language-bash">
 yarn cli wallet create
             </code></pre>
@@ -367,20 +356,21 @@ successfully.
                 <p><strong>IMPORTANT:</strong> Make sure to securely store your mnemonic phrase. It's crucial for accessing your wallet and cannot be recovered if lost.</p>
             </div>
 
-            <h3>4.4 Show Address</h3>
+            <h3>4.3 Show Address</h3>
             <pre><code class="language-bash">
 yarn cli wallet address
             </code></pre>
 
-            <h3>4.5 Fund Your Address</h3>
+            <h3>4.4 Fund Your Address</h3>
             <p>Deposit some satoshis to your address before proceeding.</p>
 
-            <h3>4.6 Show Token Balances</h3>
+            <h3>4.5 Check Sync Progress and Show Token Balances</h3>
             <pre><code class="language-bash">
-yarn cli wallet balances
+yarn cli wallet balance
             </code></pre>
+            <p>This command will show the sync progress percentage and your token balances once synced.</p>
 
-            <h3>4.7 Deploy Token</h3>
+            <h3>4.6 Deploy Token</h3>
             <p>You can deploy a token using a metadata JSON file or command line options:</p>
             <pre><code class="language-bash">
 # Using metadata file
@@ -390,18 +380,29 @@ yarn cli deploy --metadata=example.json
 yarn cli deploy --name=cat --symbol=CAT --decimals=2 --max=21000000 --premine=0 --limit=5
             </code></pre>
 
-            <h3>4.8 Mint Token</h3>
+            <h3>4.7 Mint Token</h3>
             <pre><code class="language-bash">
 yarn cli mint -i [tokenId] [amount?]
             </code></pre>
 
-            <h3>4.9 Send Token</h3>
+            <h3>4.8 Send Token</h3>
             <pre><code class="language-bash">
 yarn cli send -i [tokenId] [receiver] [amount]
             </code></pre>
 
             <div class="note">
                 <p><strong>NOTE:</strong> For all commands, you can specify a fee rate using the <code>--fee-rate</code> option.</p>
+            </div>
+
+            <h3>4.9 Configuration (Optional)</h3>
+            <p>The CLI uses a configuration file by default. You can create one based on the example:</p>
+            <pre><code class="language-bash">
+cp config.example.json config.json
+            </code></pre>
+            <p>The default configuration should work for most users. If you need to customize it, you can edit the config.json file.</p>
+
+            <div class="note">
+                <p><strong>NOTE:</strong> The default network is "mainnet". Only change this if you're specifically testing on a different network.</p>
             </div>
 
             <div class="troubleshooting">
@@ -415,10 +416,28 @@ yarn cli send -i [tokenId] [receiver] [amount]
         </div>
 
         <div class="glass-panel">
-            <h2>5. Final Notes</h2>
+            <h2>5. Final Notes and Troubleshooting</h2>
             <ul>
-                <li>Always keep your system and packages up to date.</li>
-                <li>Regularly backup your database and wallet.</li>
+                <li>Ensure all components are running correctly:
+                    <ul>
+                        <li>Check if the tracker is running: <code>docker ps | grep tracker</code></li>
+                        <li>Check tracker logs: <code>docker logs tracker</code></li>
+                        <li>Check the API endpoint: <code>curl http://localhost:3000/api</code></li>
+                        <li>Monitor sync progress: <code>yarn cli wallet balance</code></li>
+                    </ul>
+                </li>
+                <li>API Documentation:
+                    <ul>
+                        <li>Swagger UI: <a href="http://localhost:3000/api" target="_blank">http://localhost:3000/api</a></li>
+                        <li>OpenAPI JSON: <a href="http://localhost:3000/api-json" target="_blank">http://localhost:3000/api-json</a></li>
+                    </ul>
+                </li>
+                <li>Always keep your system and packages up to date:
+                    <pre><code class="language-bash">
+sudo apt update && sudo apt upgrade -y
+yarn upgrade
+                    </code></pre>
+                </li>
                 <li>Monitor your system resources, especially when running a full node.</li>
                 <li>For advanced configurations or issues, refer to the official documentation or seek community support.</li>
             </ul>
