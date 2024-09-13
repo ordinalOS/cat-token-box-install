@@ -36,7 +36,7 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
@@ -55,7 +55,7 @@
             opacity: 0.1;
         }
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -84,9 +84,9 @@
             color: var(--primary-color);
             font-weight: 700;
         }
-        h1 { font-size: 1.4em; margin: 0; }
-        h2 { font-size: 1.2em; }
-        h3 { font-size: 1em; }
+        h1 { font-size: 2em; margin: 0; }
+        h2 { font-size: 1.75em; }
+        h3 { font-size: 1.5em; }
         a {
             color: var(--primary-color);
             text-decoration: none;
@@ -101,12 +101,12 @@
             padding: 1em;
             margin: 0.5em 0;
             overflow: auto;
+            font-size: 0.9em;
         }
         code[class*="language-"] {
             font-family: 'Roboto Mono', monospace;
             color: var(--text-color);
             text-shadow: none;
-            font-size: 0.9em;
         }
         .glass-panel {
             background: rgba(255, 255, 255, 0.05);
@@ -132,6 +132,18 @@
         .troubleshooting {
             background-color: rgba(255, 0, 0, 0.1);
             border-left: 4px solid #ff0000;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+            .container {
+                padding: 10px;
+            }
+            h1 { font-size: 1.75em; }
+            h2 { font-size: 1.5em; }
+            h3 { font-size: 1.25em; }
         }
     </style>
 </head>
@@ -330,58 +342,67 @@ yarn build
             </code></pre>
 
             <h3>4.2 Configuration</h3>
+            <p>The CLI uses a configuration file by default. You can create one based on the example:</p>
             <pre><code class="language-bash">
 cp config.example.json config.json
-nano config.json
-            </code></pre>
-            <p>Update config.json with your own configuration. Here's an example of what your config.json might look like:</p>
-            <pre><code class="language-json">
-{
-  "network": "testnet",
-  "mnemonic": "your twelve word mnemonic phrase goes here",
-  "trackerUrl": "http://localhost:3000"
-}
-            </code></pre>
-            <p>Replace "your twelve word mnemonic phrase goes here" with your actual mnemonic phrase.</p>
+</code></pre>
+            <p>The default configuration should work for most users. If you need to customize it, you can edit the config.json file.</p>
 
-            <h3>4.3 CLI Commands</h3>
+            <div class="note">
+                <p><strong>NOTE:</strong> The default network is "mainnet". Only change this if you're specifically testing on a different network.</p>
+            </div>
+
+            <h3>4.3 Create a Wallet</h3>
             <pre><code class="language-bash">
-# Create a wallet
 yarn cli wallet create
+            </code></pre>
+            <p>You should see an output similar to:</p>
+            <pre><code class="language-plaintext">
+? What is the mnemonic value of your account? (default: generate a new mnemonic) ********
+Your wallet mnemonic is:  ********
+exporting address to the RPC node ... 
+successfully.
+            </code></pre>
+            <div class="warning">
+                <p><strong>IMPORTANT:</strong> Make sure to securely store your mnemonic phrase. It's crucial for accessing your wallet and cannot be recovered if lost.</p>
+            </div>
 
-# Show address
+            <h3>4.4 Show Address</h3>
+            <pre><code class="language-bash">
 yarn cli wallet address
+            </code></pre>
 
-# Show token balances
+            <h3>4.5 Fund Your Address</h3>
+            <p>Deposit some satoshis to your address before proceeding.</p>
+
+            <h3>4.6 Show Token Balances</h3>
+            <pre><code class="language-bash">
 yarn cli wallet balances
+            </code></pre>
 
-# Deploy token
+            <h3>4.7 Deploy Token</h3>
+            <p>You can deploy a token using a metadata JSON file or command line options:</p>
+            <pre><code class="language-bash">
+# Using metadata file
 yarn cli deploy --metadata=example.json
-# or
+
+# Using command line options
 yarn cli deploy --name=cat --symbol=CAT --decimals=2 --max=21000000 --premine=0 --limit=5
+            </code></pre>
 
-# Mint token
+            <h3>4.8 Mint Token</h3>
+            <pre><code class="language-bash">
 yarn cli mint -i [tokenId] [amount?]
+            </code></pre>
 
-# Send token
+            <h3>4.9 Send Token</h3>
+            <pre><code class="language-bash">
 yarn cli send -i [tokenId] [receiver] [amount]
             </code></pre>
 
             <div class="note">
-                <p><strong>NOTE:</strong> Replace [tokenId], [receiver], and [amount] with actual values when using these commands.</p>
+                <p><strong>NOTE:</strong> For all commands, you can specify a fee rate using the <code>--fee-rate</code> option.</p>
             </div>
-
-            <p>When deploying a token with a metadata file, here's an example of what your <code>example.json</code> might look like:</p>
-            <pre><code class="language-json">
-{
-    "name": "cat",
-    "symbol": "CAT",
-    "decimals": 2,
-    "max": "21000000",
-    "limit": "5",
-    "premine": "0"
-}
-            </code></pre>
 
             <div class="troubleshooting">
                 <h4>Troubleshooting Section 4:</h4>
