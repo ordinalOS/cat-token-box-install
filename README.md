@@ -1,5 +1,8 @@
 # CAT Token Box Setup Guide
 
+![CAT Token Box Banner](banner.jpeg)
+
+
 > **HIGHLY RECOMMENDED:** To use the official documentation https://github.com/CATProtocol/cat-token-box
 
 > **NOTE:** I will be updating this guide. Follow me at [@ordinalos](https://x.com/ordinalos) for updates.
