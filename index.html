@@ -157,7 +157,25 @@ yarn build
 cp .env.example .env
 nano .env
     </code></pre>
-    <p>Update the .env file with your configuration.</p>
+    <p>Update the .env file with your configuration. Here's an example of what your .env file might look like:</p>
+    <pre><code class="language-bash">
+DATABASE_TYPE=postgres
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_DB=cat
+DATABASE_USERNAME=cat_user
+DATABASE_PASSWORD=your_password
+
+RPC_HOST=127.0.0.1
+RPC_PORT=8332
+RPC_USER=bitcoin
+RPC_PASSWORD=your_rpc_password
+
+NETWORK=mainnet
+API_PORT=3000
+GENESIS_BLOCK_HEIGHT=0
+    </code></pre>
+    <p>Make sure to replace <code>your_password</code> and <code>your_rpc_password</code> with your actual PostgreSQL and RPC passwords.</p>
 
     <h3>3.3 Set Up Docker</h3>
     <pre><code class="language-bash">
@@ -219,7 +237,15 @@ yarn build
 cp config.example.json config.json
 nano config.json
     </code></pre>
-    <p>Update config.json with your own configuration.</p>
+    <p>Update config.json with your own configuration. Here's an example of what your config.json might look like:</p>
+    <pre><code class="language-json">
+{
+  "network": "testnet",
+  "mnemonic": "your twelve word mnemonic phrase goes here",
+  "trackerUrl": "http://localhost:3000"
+}
+    </code></pre>
+    <p>Replace "your twelve word mnemonic phrase goes here" with your actual mnemonic phrase.</p>
 
     <h3>4.3 CLI Commands</h3>
     <pre><code class="language-bash">
@@ -247,6 +273,18 @@ yarn cli send -i [tokenId] [receiver] [amount]
     <div class="note">
         <p><strong>NOTE:</strong> Replace [tokenId], [receiver], and [amount] with actual values when using these commands.</p>
     </div>
+
+    <p>When deploying a token with a metadata file, here's an example of what your <code>example.json</code> might look like:</p>
+    <pre><code class="language-json">
+{
+    "name": "cat",
+    "symbol": "CAT",
+    "decimals": 2,
+    "max": "21000000",
+    "limit": "5",
+    "premine": "0"
+}
+    </code></pre>
 
     <div class="troubleshooting">
         <h4>Troubleshooting Section 4:</h4>
